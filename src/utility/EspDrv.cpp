@@ -18,9 +18,10 @@ along with The Arduino WiFiEsp library.  If not, see
 
 #include <Arduino.h>
 #include <avr/pgmspace.h>
-
+#include <cstdarg>
 #include "utility/EspDrv.h"
 #include "utility/debug.h"
+#include "tiny_vsnprintf.h"
 
 
 #define NUMESPTAGS 5
@@ -1017,7 +1018,7 @@ int EspDrv::sendCmd(const __FlashStringHelper* cmd, int timeout, ...)
 
 	va_list args;
 	va_start (args, timeout);
-	vsnprintf_P (cmdBuf, CMD_BUFFER_SIZE, (char*)cmd, args);
+	tiny_vsnprintf_like (cmdBuf, CMD_BUFFER_SIZE, (char*)cmd, args);
 	va_end (args);
 
 	espEmptyBuf();
